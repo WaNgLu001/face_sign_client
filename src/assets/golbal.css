@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
+.van-nav-bar__title,
+.van-ellipsis {
+  color: white !important;
+  font-size: 18px !important;
+}
