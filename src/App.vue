@@ -6,7 +6,7 @@
       <van-tabbar-item  icon="home-o" to="/">
         <span>首页</span>
       </van-tabbar-item>
-      <van-tabbar-item  icon="bar-chart-o" to="/search"
+      <van-tabbar-item  icon="bar-chart-o" to="/look"
         ><span>查看</span>
       </van-tabbar-item>
     </van-tabbar>

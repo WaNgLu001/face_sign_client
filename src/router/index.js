@@ -15,7 +15,7 @@ const routes = [{
     component: ViewSign
   },
   {
-    path: '/look/:type',
+    path: '/look',
     component: look
   }
 ]

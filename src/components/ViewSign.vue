@@ -1,13 +1,13 @@
 <template>    
     <div class="wrap">
         <div class="one">
-            <span class="className" @click="ViewSignRecords('kfzx')">开发中心</span>
+            <span class="className" @click="ViewSignRecords()">开发中心</span>
         </div>
         <div class="one">
-             <span class="className" @click="ViewSignRecords('102')" >102教室</span>
+             <span class="className" @click="ViewSignRecords()" >102教室</span>
         </div>
         <div class="one">
-             <span class="className"  @click="ViewSignRecords('103')" >103教室</span>
+             <span class="className"  @click="ViewSignRecords()" >103教室</span>
         </div>
     </div>
 </template>
@@ -18,8 +18,8 @@ export default {
     },
     methods:{
         // 查看对应教室人员信息
-        ViewSignRecords(type){
-            this.$router.push('/look/'+type)
+        ViewSignRecords(){
+            this.$router.push('/look/')
         }
     }
 }
