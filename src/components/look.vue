@@ -8,6 +8,7 @@
       border
       height="90%"
       style="width: 100%"
+      @row-click="rowClick"
     >
       <el-table-column
         prop="class"
@@ -16,9 +17,10 @@
         :filters="filterData"
         :filter-method="filterHandler"
         :filter-multiple="false"
+        width="80"
       >
       </el-table-column>
-      <el-table-column prop="NAME" label="姓名"> </el-table-column>
+      <el-table-column prop="NAME" label="姓名" width="80"> </el-table-column>
       <el-table-column prop="mon" label="周一" width="60px"> </el-table-column>
       <el-table-column prop="tues" label="周二" width="60px"> </el-table-column>
       <el-table-column prop="wed" label="周三" width="60px"> </el-table-column>
@@ -27,6 +29,11 @@
       <el-table-column prop="sat" label="周六" width="60px"> </el-table-column>
       <el-table-column prop="sun" label="周日" width="60px"> </el-table-column>
     </el-table>
+     <van-popup v-model="show" position="bottom" :overlay="overlay" :style="{ height: '40%',opacity:opacity }">
+    <div class="EchartPractice" >
+    <div id="main" ref="chart"></div>
+    </div>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -36,12 +43,25 @@ export default {
       tableData: [],
       filterData: [],
       data: [],
-      dataAll: []
+      dataAll: [],
+      persondata:[],
+        show: false,
+        name:'',
+        mon:'',
+        tues:'',
+        wed:'',
+        thur:'',
+        fri:'',
+        sat:'',
+        sun:'',
+        total:0,
+        overlay:false,
+        opacity:0
     }
   },
   async created() {
     const { data } = await this.$axios.get(`getfaceClass`)
-    console.log(data)
+    // console.log(data)
     let filter = localStorage.getItem('filter')
     this.tableData = data.data
     this.getfilterArray()
@@ -71,8 +91,59 @@ export default {
           this.filterData.push({ text: key, value: key })
         }
       }
-      console.log(this.filterData)
-    }
+      // console.log(this.filterData)
+    },
+    rowClick(row){
+        this.show = true;
+        let thisrowData = this
+        thisrowData = row
+        this.name = thisrowData.NAME
+        this.persondata = [thisrowData.mon,thisrowData.tues,thisrowData.wed,thisrowData.thur,thisrowData.fri,thisrowData.sat,thisrowData.sun]
+        
+        this.persondata.forEach((i) => {         
+          this.total+=parseFloat(i)
+        })
+        
+        this.drawChart();
+        this.total = 0
+      },
+      drawChart() {
+        var bar_dv = this.$refs.chart;
+         
+        if (bar_dv){
+        let myChart = this.$echarts.init(main)
+        let option = {
+          title:{
+            text:this.name+" 本周签到时长:"+this.total
+          },
+          tooltip:{},
+          
+          xAxis:{
+            data: ["周一","周二","周三","周四","周五","周六","周日"]
+          },
+          yAxis:{
+            type: 'value'
+          },
+          series:[{
+            name:'销量',
+            type:"line",
+            data:this.persondata
+          }
+          ]
+        };
+       
+        myChart.setOption(option);
+      }}
+      
+  },
+    mounted() {
+      
+    this.show = true;
+    setTimeout(()=>{
+        this.show = false;
+        this.opacity =1
+        this.overlay = true
+    },)
   }
 }
 </script>
@@ -86,4 +157,10 @@ export default {
   /* margin-bottom: 50px;
   box-sizing: content-box; */
 }
+#main {
+    width: 350px;
+    height:250px;
+    margin: auto;
+    margin-top: 20px
+  }
 </style>
