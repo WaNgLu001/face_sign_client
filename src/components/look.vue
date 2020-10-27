@@ -99,11 +99,11 @@ export default {
         thisrowData = row
         this.name = thisrowData.NAME
         this.persondata = [thisrowData.mon,thisrowData.tues,thisrowData.wed,thisrowData.thur,thisrowData.fri,thisrowData.sat,thisrowData.sun]
-        
+        var sum = 0
         this.persondata.forEach((i) => {         
-          this.total+=parseFloat(i)
+          sum+=parseFloat(i)
         })
-        
+        this.total = sum.toFixed(2)
         this.drawChart();
         this.total = 0
       },
